@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 
 import { CreateUserDto } from '~/users/dto/create-user.dto';
 import { UpdateUserDto } from '~/users/dto/update-user.dto';
-import { User } from '~/users/user.schema';
+import { User } from '~/users/entities/user.schema';
 import { EncryptService } from '~/encrypt/encrypt.service';
 
 @Injectable()

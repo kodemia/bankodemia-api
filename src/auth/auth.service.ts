@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { EncryptService } from '~/encrypt/encrypt.service';
-import { User } from '~/users/user.schema';
+import { User } from '~/users/entities/user.schema';
 import { UsersService } from '~/users/users.service';
 import { PhoneVerificationDto } from './dto/phone-verification.dto';
 
@@ -35,6 +35,5 @@ export class AuthService {
       phoneVerificationObject.phone,
       phoneVerificationObject.verificationCode
     )
-
   }
 }

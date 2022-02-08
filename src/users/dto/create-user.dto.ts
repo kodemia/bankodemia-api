@@ -2,7 +2,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBase64, IsDateString, IsEmail, IsIn, IsNotEmpty, IsPhoneNumber, IsString  } from 'class-validator'
 
-import { User, identityImageTypes, IdentityImageType } from '~/users/user.schema'
+import { User, identityImageTypes, IdentityImageType } from '~/users/entities/user.schema'
 
 export class CreateUserDto extends User { 
   @IsEmail()
