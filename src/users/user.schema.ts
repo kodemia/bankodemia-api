@@ -1,7 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+export const identityImageTypes = [ 'ine', 'passport', 'migration-form' ] as const
+
 export type UserDocument = User & Document;
+export type IdentityImageType = typeof identityImageTypes[number]
 
 @Schema()
 export class User {
@@ -31,8 +34,14 @@ export class User {
   @Prop({ default: false })
   isPhoneVerified: boolean
 
-  @Prop({ required: true })
+  @Prop()
   phoneVerificationCode: string
+
+  @Prop()
+  identityImage: string
+
+  @Prop({ enum: identityImageTypes })
+  identityImageType: IdentityImageType
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
