@@ -16,3 +16,4 @@ export const docsConfig = new DocumentBuilder()
   .setVersion('1.0')
   .addBearerAuth()
   .build();
+

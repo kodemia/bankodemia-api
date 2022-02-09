@@ -17,10 +17,10 @@ import { AuthModule } from '~/auth/auth.module';
       isGlobal: true,
       load: [ appConfig, mongodbConfig, jwtConfig ]
     }),
+    AuthModule,
     UsersModule,
-    MongoDBModule,
     MovementsModule,
-    AuthModule
+    MongoDBModule,
   ]
 })
 
