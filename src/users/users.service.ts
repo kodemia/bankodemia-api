@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 
 import { CreateUserDto } from '~/users/dto/create-user.dto';
 import { UpdateUserDto } from '~/users/dto/update-user.dto';
-import { User } from '~/users/entities/user.schema';
+import { User, UserDocument } from '~/users/entities/user.schema';
 import { EncryptService } from '~/encrypt/encrypt.service';
 
 @Injectable()
@@ -55,8 +55,10 @@ export class UsersService {
     return this.userModel.find().exec()
   }
 
-  findOne(id: string): Promise<User> {
-    return this.userModel.findById(id).exec()
+  findOne(id: string, select = null): Promise<User> {
+    return this.userModel.findById(id)
+      .select(select)
+      .exec()
   }
 
   update(id: string, updateUserDto: UpdateUserDto): Promise<User> {

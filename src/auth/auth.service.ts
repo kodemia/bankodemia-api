@@ -24,10 +24,11 @@ export class AuthService {
     return user
   }
 
-  login (user: User): string {
-    return this.jwtService.sign({
-        id: user._id
-    })
+  login (user: User, ttl: string = '1h'): string {
+    return this.jwtService.sign(
+      { sub: user._id }, 
+      { expiresIn: ttl }
+    )
   }
 
   validatePhone (phoneVerificationObject: PhoneVerificationDto): Promise<boolean> {

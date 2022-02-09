@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigType } from '@nestjs/config';
 
@@ -19,7 +19,7 @@ import { LocalStrategy } from '~/auth/strategies/local.strategy';
     AuthService, 
     JWTStrategy,
     LocalStrategy,
-    EncryptService 
+    EncryptService
   ],
   imports: [
     JwtModule.registerAsync({
@@ -34,6 +34,6 @@ import { LocalStrategy } from '~/auth/strategies/local.strategy';
     UsersModule,
     PassportModule
   ],
-  exports: [ AuthService ]
+  exports: [ AuthService, AuthModule ]
 })
 export class AuthModule {}
