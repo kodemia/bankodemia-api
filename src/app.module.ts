@@ -8,7 +8,6 @@ import jwtConfig from '~/config/jwt.config'
 import { MongoDBModule } from '~/mongoose/mongoose.module'
 
 import { UsersModule } from '~/users/users.module';
-import { MovementsModule } from '~/movements/movements.module';
 import { AuthModule } from '~/auth/auth.module';
 
 @Module({
@@ -19,7 +18,6 @@ import { AuthModule } from '~/auth/auth.module';
     }),
     AuthModule,
     UsersModule,
-    MovementsModule,
     MongoDBModule,
   ]
 })
