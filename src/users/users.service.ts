@@ -51,11 +51,14 @@ export class UsersService {
     return true
   }
 
-  findAll(): Promise<User[]> {
-    return this.userModel.find().exec()
+  findAll(select: string = null): Promise<User[]> {
+    return this.userModel
+      .find()
+      .select(select)
+      .exec()
   }
 
-  findOne(id: string, select = null): Promise<User> {
+  findOne(id: string, select:string = null): Promise<User> {
     return this.userModel.findById(id)
       .select(select)
       .exec()

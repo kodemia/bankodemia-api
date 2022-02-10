@@ -9,31 +9,46 @@ import { ExpiresInEnum } from '~/auth/auth.types'
 export class LoginDto extends PartialType(User) {
   @ApiProperty({
     required: true,
-    example: 'koder@kodemia.mx'
+    example: 'koder@kodemia.mx',
+    description: 'Email address'
   })
   @IsEmail()
   email?: string;
 
   @ApiProperty({
     required: true,
-    example: 'BondJames007'
+    example: 'BondJames007',
+    description: 'Plain text password'
   })
   @IsNotEmpty()
   password?: string;
 }
 
 export class LoginResponse {
-  @ApiProperty({ example: 'hHeEaDeRr.PpAayYLloOaAdD.SsiGgNnaAtTuRreE' })
+  @ApiProperty({ 
+    example: 'hHeEaDeRr.PpAayYLloOaAdD.SsiGgNnaAtTuRreE',
+    description: 'User JWT Token'
+  })
   token: string
 
-  @ApiProperty({ example: ExpiresInEnum["5m"], enum: ExpiresInEnum })
+  @ApiProperty({ 
+    example: ExpiresInEnum["5m"], 
+    enum: ExpiresInEnum,
+    description: 'Token ttl'
+  })
   expiresIn: ExpiresInEnum
 }
 
 export class LoginFailedResponse {
-  @ApiProperty({ example: 401 })
+  @ApiProperty({ 
+    example: 401,
+    description: 'HTTP status code'
+  })
   statusCode: number
 
-  @ApiProperty({ example: 'Unauthorized' })
+  @ApiProperty({ 
+    example: 'Unauthorized',
+    description: 'Error message'
+  })
   message: string
 }

@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Query, Request, UseGuards } from '@nestjs/common';
-import { ApiCreatedResponse, ApiExtraModels, ApiOperation, ApiProperty, ApiQuery, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiExtraModels, ApiOperation, ApiQuery, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 import { AuthService } from '~/auth/auth.service';
 import { LocalAuthGuard } from '~/auth/guards/local-auth.guard';

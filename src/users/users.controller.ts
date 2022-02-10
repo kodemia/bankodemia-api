@@ -1,45 +1,76 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Param, UseGuards, Request, ForbiddenException } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiForbiddenResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { UsersService } from '~/users/users.service';
 import { CreateUserDto } from '~/users/dto/create-user.dto';
 import { JwtAuthGuard } from '~/auth/guards/jwt-auth.guard';
+import { UsersListResponse, SingleUserResponse } from './dto/responses.dto';
+import { BadPostRequest } from '~/types/response.type';
 
-// @ApiExtraModels(User)
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiBadRequestResponse({ description: 'Bad Request', status: 400 })
-  @ApiOperation({ summary: 'Create a user' })
-  @Post('')
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
-  @ApiOperation({
-    summary: 'List all users'
+  @ApiBadRequestResponse({
+    type: BadPostRequest,
+    description: 'Bad request'
   })
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @ApiCreatedResponse({
+    type: SingleUserResponse,
+    description: 'User Created'
+  })
+  @ApiBadRequestResponse({ description: 'Bad Request', status: 400 })
+  @ApiOperation({ summary: 'User SignUp' })
+  @Post('')
+  async create(@Body() createUserDto: CreateUserDto): Promise<SingleUserResponse> {
+    const user = await this.usersService.create(createUserDto)
+
+    return {
+      success: true,
+      data: { user }
+    }
   }
 
+  @ApiOkResponse({
+    description: 'All users response',
+    type: UsersListResponse
+  })
+  @ApiOperation({ summary: 'List users' })
+  @Get('')
+  async getAll (): Promise<UsersListResponse> {
+    const users = await this.usersService.findAll('-password')
+    return {
+      success: true,
+      data: { users }
+    }
+  }
+
+  @ApiOkResponse({ 
+    description: 'Ok',
+    type: SingleUserResponse 
+  })
+  @ApiForbiddenResponse({ description: 'Not allowed to see other users details' })
+  @ApiOperation({
+    summary: 'Get a user'
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne( @Request() request, @Param('id') id: string) {
-    return this.usersService.findOne(id);
+  async findOne( @Request() request, @Param('id') id: string): Promise<SingleUserResponse> {
+    if (request.user._id != id) {
+      throw new ForbiddenException('Not authorized to see other users details')
+    }
+    const user = await this.usersService.findOne(id, '-password');
+
+    return {
+      success: true,
+      data: { user }
+    }
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(id, updateUserDto);
-  // }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  @Get('/profile')
+  async getProfileInfo(@Request() request) {
+    
   }
 }
