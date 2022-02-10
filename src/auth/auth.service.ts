@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { EncryptService } from '~/encrypt/encrypt.service';
 import { User } from '~/users/entities/user.schema';
 import { UsersService } from '~/users/users.service';
+import { ExpiresIn, ExpiresInEnum } from './auth.types';
 import { PhoneVerificationDto } from './dto/phone-verification.dto';
 
 @Injectable()
@@ -24,7 +25,7 @@ export class AuthService {
     return user
   }
 
-  login (user: User, ttl: string = '1h'): string {
+  login (user: User, ttl: ExpiresIn = ExpiresInEnum['1h']): string {
     return this.jwtService.sign(
       { sub: user._id }, 
       { expiresIn: ttl }

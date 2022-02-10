@@ -1,9 +1,9 @@
-import { Body, Controller, Post, Query, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Query, Request, UseGuards, ValidationPipe } from '@nestjs/common';
 import { ApiCreatedResponse, ApiExtraModels, ApiOperation, ApiQuery, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 import { AuthService } from '~/auth/auth.service';
 import { LocalAuthGuard } from '~/auth/guards/local-auth.guard';
-import { LoginDto } from '~/auth/dto/login.dto'
+import { LoginDto, LoginQuery } from '~/auth/dto/login.dto'
 import { PhoneVerificationDto } from '~/auth/dto/phone-verification.dto'
 
 import { ExpiresInEnum } from '~/auth/auth.types'
@@ -25,27 +25,22 @@ export class AuthController {
     type: LoginResponse
   })
   @ApiOperation({ summary: 'Log in user',  })
-  @ApiQuery({ 
-    name: 'expires_in',
-    enum: ExpiresInEnum,
-    description: 'time to live for the token in minutes or hour' 
-  })
   @UseGuards(LocalAuthGuard)
   @Post('/login')
-  login(@Request() request, @Body() body: LoginDto, @Query('expires_in') expires_in: ExpiresInEnum): LoginResponse {
-    console.log('req.user: ', request.user)
+  login(@Request() request, @Body() body: LoginDto, @Query() query: LoginQuery): LoginResponse {
     return { 
-      token: this.authService.login(request.user, expires_in),
-      expiresIn: expires_in
+      token: this.authService.login(request.user, query.expires_in),
+      expiresIn: query.expires_in || ExpiresInEnum['1h']
     }
   }
 
-  @ApiOperation({
-    summary: "Verify user´s phone"
-  })
-  @Post('/phone/verification')
-  phoneVerify (@Body() body: PhoneVerificationDto) {
+  // TODO: Implement this
+  // @ApiOperation({
+  //   summary: "Verify user's phone"
+  // })
+  // @Post('/phone/verification')
+  // phoneVerify (@Body() body: PhoneVerificationDto) {
     
-  }
+  // }
 }
 

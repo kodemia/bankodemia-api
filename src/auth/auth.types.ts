@@ -10,3 +10,8 @@ export enum ExpiresInEnum {
   '10m' = '10m',
   '1h' = '1h'
 }
+
+export type ExpiresIn = '1m' | '5m' | '10m' | '1h'
+
+export const ExpiresInTypes = [ '1m', '5m', '10m', '1h' ] as const
+export type ExpiresInType = typeof ExpiresInTypes[number]

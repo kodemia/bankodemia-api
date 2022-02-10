@@ -1,10 +1,10 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty  } from 'class-validator'
+import { IsEmail, IsIn, IsNotEmpty, IsOptional, IsString  } from 'class-validator'
 
 import { User } from '~/users/entities/user.schema';
 
-import { ExpiresInEnum } from '~/auth/auth.types'
+import { ExpiresInEnum, ExpiresInTypes } from '~/auth/auth.types'
 
 export class LoginDto extends PartialType(User) {
   @ApiProperty({
@@ -27,7 +27,7 @@ export class LoginDto extends PartialType(User) {
 export class LoginResponse {
   @ApiProperty({ 
     example: 'hHeEaDeRr.PpAayYLloOaAdD.SsiGgNnaAtTuRreE',
-    description: 'User JWT Token'
+    description: 'User token. you can extract the userId from the token payload under the key `sub`'
   })
   token: string
 
@@ -51,4 +51,15 @@ export class LoginFailedResponse {
     description: 'Error message'
   })
   message: string
+}
+
+export class LoginQuery {
+  @ApiProperty({
+    example: ExpiresInEnum['1h'],
+    description: 'JWT Time to live. `h` = hours and `m` = minutes. 1m minimum and 1h maximum',
+    required: false
+  })
+  @IsOptional()
+  @IsIn(ExpiresInTypes)
+  expires_in?: ExpiresInEnum
 }

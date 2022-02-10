@@ -19,23 +19,23 @@ export class User {
   @Prop({ required: true })
   email: string;
   
-  @ApiProperty({ example: 'John' })
+  @ApiProperty({ example: 'John', description: 'User name' })
   @Prop({ required: true })
   name: string;
   
-  @ApiProperty({ example: 'Doe' })
+  @ApiProperty({ example: 'Doe', description: 'User lastname' })
   @Prop({ required: true })
   lastName: string;
   
-  @ApiProperty({ example: 'Software Magician' })
+  @ApiProperty({ example: 'Software Magician', description: 'User occupation' })
   @Prop()
   occupation?: string
 
-  @ApiProperty({ example: '1995-11-04' })
+  @ApiProperty({ example: '1995-11-04', description: 'User birthdate' })
   @Prop({ required: true })
   birthDate: Date
 
-  @ApiProperty({ example: 'BondJames007' })
+  @ApiProperty({ example: 'BondJames007', description: 'User password' })
   @Prop({ required: true })
   password: string
 
@@ -55,10 +55,10 @@ export class User {
   phoneVerificationCode: string
 
   @ApiProperty({ 
-    description: 'Image as Base64 string',
+    description: 'Base64 image string',
     example: 'iVBORw0KGgoAAAANSUhEUg...' 
   })
-  @Prop()
+  @Prop({ required: true })
   identityImage: string
   
   @ApiProperty({ 

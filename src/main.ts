@@ -17,7 +17,8 @@ async function bootstrap() {
     SwaggerModule.createDocument(app, docsConfig),
     {
       customfavIcon: 'https://kodemia.mx/favicon.ico',
-      customSiteTitle: 'Bankodemia | Docs'
+      customSiteTitle: 'Bankodemia | Docs',
+      url: process.env.HOST
     }
   );
 
