@@ -40,7 +40,6 @@ export class AuthController {
   // })
   // @Post('/phone/verification')
   // phoneVerify (@Body() body: PhoneVerificationDto) {
-    
   // }
 }
 

@@ -1,16 +1,20 @@
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsMongoId } from 'class-validator';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { User } from '~/users/entities/user.schema';
 
+export const TransactionTypes = [ 'DEPOSIT', 'PAYMENT' ]
 export enum TransactionType {
   Deposit = 'DEPOSIT',
   Payment = 'PAYMENT'
 }
 
+export type TransactionDocument = Transaction & Document
+
 @Schema()
-export class Transaction extends Document {
+export class Transaction {
   @ApiProperty({ readOnly: true })
   _id: string
 
@@ -38,14 +42,15 @@ export class Transaction extends Document {
 
   @ApiProperty({
     readOnly: true,
-    type: String
+    type: String,
+    description: 'Issuer user'
   })
   @Prop({
     required: true,
     type: MongooseSchema.Types.ObjectId,
     ref: 'User'
   })
-  issuer: User
+  issuer: string
 
   @ApiProperty({
     type: String,
@@ -53,19 +58,27 @@ export class Transaction extends Document {
     example: '6204409a5696f4000da56098'
   })
   @Prop({
-    type: String,
+    type: MongooseSchema.Types.ObjectId,
     ref: 'User',
     required: function () {
       console.log('this.type: ', this.type)
       return this.type === TransactionType.Payment 
     }
   })
-  @Prop()
-  destinationUser: User
+  destinationUser: string
+
+  @ApiProperty({
+    type: String,
+    description: 'Transaction concept',
+    example: 'Orden de tacos'
+  })
+  @Prop({ required: true })
+  concept: string
 
   @ApiProperty({
     type: Date,
-    readOnly: true
+    readOnly: true,
+    description: 'Creation date'
   })
   @Prop({
     type: Date,
@@ -75,3 +88,8 @@ export class Transaction extends Document {
 }
 
 export const TransactionSchema = SchemaFactory.createForClass(Transaction);
+
+export class GetByIdParams {
+  @IsMongoId()
+  id: string
+}

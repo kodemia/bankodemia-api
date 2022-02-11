@@ -31,8 +31,10 @@ export class UsersService {
     })
   }
 
-  findByEmail(email: string): Promise<User> {
-    return this.userModel.findOne({ email }).exec()
+  findByEmail(email: string, select: string = null): Promise<User> {
+    return this.userModel.findOne({ email })
+      .select(select)
+      .exec()
   }
 
   async verifyPhone(phone: string, phoneVerificationCode: string): Promise<boolean> {
@@ -52,8 +54,7 @@ export class UsersService {
   }
 
   findAll(select: string = null): Promise<User[]> {
-    return this.userModel
-      .find()
+    return this.userModel.find()
       .select(select)
       .exec()
   }

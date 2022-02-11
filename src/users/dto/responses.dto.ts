@@ -1,4 +1,4 @@
-import { ApiProperty, getSchemaPath } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import { ControllerResponse } from "~/types/response.type";
 import { User } from "~/users/entities/user.schema";
 

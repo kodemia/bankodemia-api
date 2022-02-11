@@ -5,7 +5,7 @@ import { UsersService } from '~/users/users.service';
 import { CreateUserDto } from '~/users/dto/create-user.dto';
 import { JwtAuthGuard } from '~/auth/guards/jwt-auth.guard';
 import { UsersListResponse, SingleUserResponse } from './dto/responses.dto';
-import { BadPostRequest } from '~/types/response.type';
+import { BadPostRequestResponse } from '~/types/response.type';
 
 @ApiTags('Users')
 @Controller('users')
@@ -13,7 +13,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiBadRequestResponse({
-    type: BadPostRequest,
+    type: BadPostRequestResponse,
     description: 'Bad request'
   })
   @ApiCreatedResponse({
@@ -58,9 +58,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne( @Request() request, @Param('id') id: string): Promise<SingleUserResponse> {
-    if (request.user._id != id) {
-      throw new ForbiddenException('Not authorized to see other users details')
-    }
     const user = await this.usersService.findOne(id, '-password');
 
     return {

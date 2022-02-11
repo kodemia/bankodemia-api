@@ -8,7 +8,7 @@ export class ControllerResponse {
   data: any
 }
 
-export class BadPostRequest {
+export class ErrorResponse {
   @ApiProperty({ example: 400 })
   statusCode: number
 
@@ -27,4 +27,11 @@ export class BadPostRequest {
     example: 'Bad Request',
   })
   error: string
+}
+
+export class BadPostRequestResponse extends ErrorResponse {}
+
+export class NotFoundResponse extends ErrorResponse {
+  @ApiProperty({ example: 404 })
+  statusCode: number;
 }
