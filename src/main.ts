@@ -3,7 +3,6 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import { RedocModule } from 'nestjs-redoc';
 import helmet from 'helmet'
-import cors from 'cors'
 
 import { AppModule } from '~/app.module';
 import { docsConfig } from '~/config/docs.config'
