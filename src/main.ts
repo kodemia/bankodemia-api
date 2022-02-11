@@ -10,11 +10,11 @@ import { redocConfig } from '~/config/redoc.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use(helmet({ 
-    crossOriginEmbedderPolicy: false,
-    contentSecurityPolicy: false,
-    crossOriginOpenerPolicy: false
-  }));
+  // app.use(helmet({ 
+  //   crossOriginEmbedderPolicy: false,
+  //   contentSecurityPolicy: false,
+  //   crossOriginOpenerPolicy: false
+  // }));
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
 
