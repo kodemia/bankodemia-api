@@ -23,7 +23,7 @@ export const redocConfig = {
     },
     typography: {
       links: {
-        color: '#00FFFF',
+        color: 'blue',
       },
     },
   },
