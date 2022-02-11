@@ -6,6 +6,7 @@ import {
   Param,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -15,6 +16,7 @@ import {
   ApiForbiddenResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 
@@ -44,7 +46,6 @@ export class UsersController {
     type: SingleUserResponse,
     description: 'User Created',
   })
-  @ApiBadRequestResponse({ description: 'Bad Request', status: 400 })
   @ApiOperation({
     summary: 'User sign up',
     description: 'Register a new user, `phone` and `email` should be unique',
@@ -66,6 +67,8 @@ export class UsersController {
     type: UsersListResponse,
   })
   @ApiOperation({ summary: 'List users' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get('')
   async getAll(): Promise<UsersListResponse> {
     const users = await this.usersService.findAll('-password');
@@ -73,6 +76,25 @@ export class UsersController {
       success: true,
       data: { users },
     };
+  }
+
+  @ApiOkResponse({
+    description: 'Found users',
+    type: UsersListResponse
+  })
+  @ApiOperation({ 
+    summary: 'Search users',
+    description: 'Search in users by passing search criteria string in `query` param'
+  })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get('/search')
+  async search (@Query('query') query: string): Promise<UsersListResponse> {
+    const users = await this.usersService.search(query)
+    return {
+      success: true,
+      data: { users }
+    }
   }
 
   @ApiOkResponse({

@@ -11,7 +11,7 @@ import parsePhoneNumber from 'libphonenumber-js';
 
 import { CreateUserDto } from '~/users/dto/create-user.dto';
 import { UpdateUserDto } from '~/users/dto/update-user.dto';
-import { User } from '~/users/entities/user.schema';
+import { User, UserDocument } from '~/users/entities/user.schema';
 import { EncryptService } from '~/encrypt/encrypt.service';
 import { TransactionsService } from '~/transactions/transactions.service';
 import { UserProfile } from './dto/responses.dto';
@@ -108,5 +108,17 @@ export class UsersService {
       transactions,
       balance,
     };
+  }
+
+  async search (query: string): Promise<User[]> {
+    const regex = new RegExp(query, 'ig')
+    return this.userModel.find({
+      $or: [
+        { email: regex },
+        { phone: regex },
+        { name: regex },
+        { lastName: regex }
+      ]
+    }).select('+phone').exec()
   }
 }

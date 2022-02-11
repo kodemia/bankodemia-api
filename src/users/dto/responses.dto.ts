@@ -3,7 +3,7 @@ import { TransactionPopulated } from '~/transactions/response.types';
 import { ControllerResponse } from '~/types/response.type';
 import { User } from '~/users/entities/user.schema';
 
-class UsersList {
+export class UsersList {
   @ApiProperty({
     isArray: true,
     type: () => User,
