@@ -12,6 +12,7 @@ export const docsConfig = new DocumentBuilder()
       '[![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)]' +
       '(https://github.com/kodemia/bankodemia-api)',
   )
+  .addServer('https://bankodemia.kodemia.mx', 'Production server')
   .setVersion('1.0')
   .addBearerAuth()
   .build();

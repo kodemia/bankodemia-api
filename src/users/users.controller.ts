@@ -11,6 +11,7 @@ import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiExtraModels,
   ApiForbiddenResponse,
   ApiOkResponse,
   ApiOperation,
@@ -29,6 +30,7 @@ import { BadPostRequestResponse } from '~/types/response.type';
 import { User } from '~/decorators/user.decorator';
 import { User as UserType } from './entities/user.schema';
 
+@ApiExtraModels(User)
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
