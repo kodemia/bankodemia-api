@@ -1,10 +1,9 @@
-import { Body, Controller, Post, Query, Request, UseGuards, ValidationPipe } from '@nestjs/common';
-import { ApiCreatedResponse, ApiExtraModels, ApiOperation, ApiQuery, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { Body, Controller, Post, Query, Request, UseGuards } from '@nestjs/common';
+import { ApiCreatedResponse, ApiExtraModels, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 import { AuthService } from '~/auth/auth.service';
 import { LocalAuthGuard } from '~/auth/guards/local-auth.guard';
 import { LoginDto, LoginQuery } from '~/auth/dto/login.dto'
-import { PhoneVerificationDto } from '~/auth/dto/phone-verification.dto'
 
 import { ExpiresInEnum } from '~/auth/auth.types'
 import { LoginResponse, LoginFailedResponse } from '~/auth/dto/login.dto'
@@ -24,7 +23,7 @@ export class AuthController {
     description: 'User Logged In',
     type: LoginResponse
   })
-  @ApiOperation({ summary: 'Log in user',  })
+  @ApiOperation({ summary: 'User Log in',  })
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   login(@Request() request, @Body() body: LoginDto, @Query() query: LoginQuery): LoginResponse {

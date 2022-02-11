@@ -1,12 +1,36 @@
-import { Controller, Post, Body, UseGuards, Request, BadRequestException, Get, Param } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiBearerAuth, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiPreconditionFailedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { 
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  BadRequestException,
+  Get,
+  Param
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiPreconditionFailedResponse,
+  ApiResponse,
+  ApiTags
+} from '@nestjs/swagger';
 
 import { TransactionsService } from '~/transactions/transactions.service';
 import { CreateTransactionDto } from '~/transactions/dto/create-transaction.dto';
 import { JwtAuthGuard } from '~/auth/guards/jwt-auth.guard';
 import { BadPostRequestResponse, NotFoundResponse } from '~/types/response.type';
 import { GetByIdParams, TransactionType } from '~/transactions/entities/transaction.entity';
-import { SingleTransactionResponse, PaymentRequestExceptionResponse, PreconditionFailedExceptionResponse, TransactionCreatedResponse, MultipleTransactionResponse } from '~/transactions/response.types';
+import { 
+  SingleTransactionResponse,
+  PaymentRequestExceptionResponse,
+  PreconditionFailedExceptionResponse,
+  TransactionCreatedResponse,
+  MultipleTransactionResponse
+} from '~/transactions/response.types';
 import { User } from '~/decorators/user.decorator';
 import { User as UserType } from '~/users/entities/user.schema';
 

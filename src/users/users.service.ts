@@ -1,25 +1,37 @@
-import { Injectable, NotFoundException, PreconditionFailedException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose'
+import { forwardRef, Inject, Injectable, NotFoundException, PreconditionFailedException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import parsePhoneNumber from 'libphonenumber-js'
 
 import { CreateUserDto } from '~/users/dto/create-user.dto';
 import { UpdateUserDto } from '~/users/dto/update-user.dto';
-import { User, UserDocument } from '~/users/entities/user.schema';
+import { User } from '~/users/entities/user.schema';
 import { EncryptService } from '~/encrypt/encrypt.service';
+import { TransactionsService } from '~/transactions/transactions.service';
+import { UserProfile } from './dto/responses.dto';
 
 @Injectable()
 export class UsersService {
   constructor( 
     @InjectModel(User.name) private userModel: Model<User>,
-    private encryptService: EncryptService
+    private encryptService: EncryptService,
+    @Inject(forwardRef(() => TransactionsService))
+    private transactionsService: TransactionsService
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User>{
-
     const exists = await this.userModel.exists({ email: createUserDto.email })
     if (exists) {
       throw new PreconditionFailedException({
         message: 'User already exists'
+      })
+    }
+
+    const phone = parsePhoneNumber(createUserDto.phone, 'MX').format('E.164')
+    const phoneExists = await this.userModel.exists({ phone })
+    if(phoneExists) {
+      throw new PreconditionFailedException({
+        message: 'User phone already exists'
       })
     }
 
@@ -71,5 +83,17 @@ export class UsersService {
 
   remove(id: string) {
     return this.userModel.findByIdAndDelete(id).exec()
+  }
+
+  async getProfile(id: string): Promise<UserProfile> {
+    const user = await this.userModel.findById(id)
+    const transactions = await this.transactionsService.getByUserId(id)
+    const balance = await this.transactionsService.getCurrentBalanceByUserId(id)
+
+    return {
+      user,
+      transactions,
+      balance
+    }
   }
 }

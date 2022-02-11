@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { TransactionPopulated } from "~/transactions/response.types";
 import { ControllerResponse } from "~/types/response.type";
 import { User } from "~/users/entities/user.schema";
 
@@ -15,6 +16,12 @@ class SingleUser {
   user: User
 }
 
+export class UserProfile {
+  user: User
+  transactions: TransactionPopulated[]
+  balance: number
+}
+
 export class UsersListResponse extends ControllerResponse {
   @ApiProperty({
     type: () => UsersList,
@@ -26,4 +33,11 @@ export class UsersListResponse extends ControllerResponse {
 export class SingleUserResponse extends ControllerResponse {
   @ApiProperty({ type: () => SingleUser })
   data: SingleUser
+}
+
+export class UserProfileResponse extends ControllerResponse {
+  @ApiProperty({
+    type: UserProfile
+  })
+  data: UserProfile
 }
