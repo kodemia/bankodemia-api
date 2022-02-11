@@ -9,18 +9,18 @@ import { User } from '~/users/entities/user.schema';
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy) {
-  constructor( 
+  constructor(
     private configService: ConfigService,
-    private usersService: UsersService
+    private usersService: UsersService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get('jwt.secret')
+      secretOrKey: configService.get('jwt.secret'),
     });
   }
 
   validate(payload: JWTPayload): Promise<User> {
-    return this.usersService.findOne(payload.sub)
+    return this.usersService.findOne(payload.sub);
   }
 }

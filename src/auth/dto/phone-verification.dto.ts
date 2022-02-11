@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsPhoneNumber  } from 'class-validator'
+import { IsNotEmpty, IsPhoneNumber } from 'class-validator';
 
 export class PhoneVerificationDto {
   @IsPhoneNumber()
-  phone: string
+  phone: string;
 
   @IsNotEmpty()
-  verificationCode: string
+  verificationCode: string;
 }

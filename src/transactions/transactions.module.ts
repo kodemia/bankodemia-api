@@ -7,19 +7,16 @@ import { UsersModule } from '~/users/users.module';
 
 @Module({
   imports: [
-    forwardRef(() =>  UsersModule),
+    forwardRef(() => UsersModule),
     MongooseModule.forFeature([
-      { 
+      {
         name: Transaction.name,
-        schema: TransactionSchema
-      }
+        schema: TransactionSchema,
+      },
     ]),
   ],
   controllers: [TransactionsController],
-  providers: [ TransactionsService ],
-  exports: [ 
-    MongooseModule,
-    TransactionsService 
-  ]
+  providers: [TransactionsService],
+  exports: [MongooseModule, TransactionsService],
 })
 export class TransactionsModule {}

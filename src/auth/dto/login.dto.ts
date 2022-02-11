@@ -1,16 +1,22 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsIn, IsNotEmpty, IsOptional, IsString  } from 'class-validator'
+import {
+  IsEmail,
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 import { User } from '~/users/entities/user.schema';
 
-import { ExpiresInEnum, ExpiresInTypes } from '~/auth/auth.types'
+import { ExpiresInEnum, ExpiresInTypes } from '~/auth/auth.types';
 
 export class LoginDto extends PartialType(User) {
   @ApiProperty({
     required: true,
     example: 'koder@kodemia.mx',
-    description: 'Email address'
+    description: 'Email address',
   })
   @IsEmail()
   email?: string;
@@ -18,48 +24,50 @@ export class LoginDto extends PartialType(User) {
   @ApiProperty({
     required: true,
     example: 'BondJames007',
-    description: 'Plain text password'
+    description: 'Plain text password',
   })
   @IsNotEmpty()
   password?: string;
 }
 
 export class LoginResponse {
-  @ApiProperty({ 
+  @ApiProperty({
     example: 'hHeEaDeRr.PpAayYLloOaAdD.SsiGgNnaAtTuRreE',
-    description: 'User token. you can extract the userId from the token payload under the key `sub`'
+    description:
+      'User token. you can extract the userId from the token payload under the key `sub`',
   })
-  token: string
+  token: string;
 
-  @ApiProperty({ 
-    example: ExpiresInEnum["5m"], 
+  @ApiProperty({
+    example: ExpiresInEnum['5m'],
     enum: ExpiresInEnum,
-    description: 'Token ttl'
+    description: 'Token ttl',
   })
-  expiresIn: ExpiresInEnum
+  expiresIn: ExpiresInEnum;
 }
 
 export class LoginFailedResponse {
-  @ApiProperty({ 
+  @ApiProperty({
     example: 401,
-    description: 'HTTP status code'
+    description: 'HTTP status code',
   })
-  statusCode: number
+  statusCode: number;
 
-  @ApiProperty({ 
+  @ApiProperty({
     example: 'Unauthorized',
-    description: 'Error message'
+    description: 'Error message',
   })
-  message: string
+  message: string;
 }
 
 export class LoginQuery {
   @ApiProperty({
     example: ExpiresInEnum['1h'],
-    description: 'JWT Time to live. `h` = hours and `m` = minutes. 1m minimum and 1h maximum',
-    required: false
+    description:
+      'JWT Time to live. `h` = hours and `m` = minutes. 1m minimum and 1h maximum',
+    required: false,
   })
   @IsOptional()
   @IsIn(ExpiresInTypes)
-  expires_in?: ExpiresInEnum
+  expires_in?: ExpiresInEnum;
 }

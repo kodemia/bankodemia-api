@@ -1,74 +1,76 @@
-
 import { ApiProperty, OmitType } from '@nestjs/swagger';
-import { ControllerResponse, ErrorResponse } from '~/types/response.type'
+import { ControllerResponse, ErrorResponse } from '~/types/response.type';
 import { User } from '~/users/entities/user.schema';
 import { Transaction } from './entities/transaction.entity';
 
-export class TransactionPopulated extends OmitType(Transaction, [ 'issuer', 'destinationUser' ]) {
-  @ApiProperty({ 
+export class TransactionPopulated extends OmitType(Transaction, [
+  'issuer',
+  'destinationUser',
+]) {
+  @ApiProperty({
     type: () => User,
-    description: 'User who made the transaction'
+    description: 'User who made the transaction',
   })
   issuer: User;
-  
-  @ApiProperty({ 
+
+  @ApiProperty({
     type: () => User,
-    description: 'User who received the money when transaction is type PAYMENT'
+    description: 'User who received the money when transaction is type PAYMENT',
   })
   destinationUser: User;
 
   @ApiProperty({
     type: Boolean,
     description: 'Is income for the user',
-    readOnly: true
+    readOnly: true,
   })
-  isIncome: boolean
+  isIncome: boolean;
 }
 
 class TransactionCreatedData {
   @ApiProperty({
     description: 'Transaction created',
-    type: TransactionPopulated
+    type: TransactionPopulated,
   })
-  transaction: TransactionPopulated
+  transaction: TransactionPopulated;
 
   @ApiProperty({
     description: 'Final balance after transaction',
-    example: 500
+    example: 500,
   })
-  finalBalance: number
+  finalBalance: number;
 }
 
 class TransactionsListData {
   @ApiProperty({
     isArray: true,
     description: 'Transactions',
-    type: TransactionPopulated
+    type: TransactionPopulated,
   })
-  transactions: TransactionPopulated
+  transactions: TransactionPopulated;
 
   @ApiProperty({
     description: 'Balance',
-    example: 500
+    example: 500,
   })
-  balance: number
+  balance: number;
 }
 
 class SingleTransactionData {
   @ApiProperty({
     type: TransactionPopulated,
-    description: 'Transaction'
+    description: 'Transaction',
   })
-  transaction: TransactionPopulated
+  transaction: TransactionPopulated;
 }
 
 class MultipleTransactionData {
   @ApiProperty({
     isArray: true,
     type: TransactionPopulated,
-    description: 'Transactions ordered by ´created_at´ date'
+    description: 'Transactions ordered by ´created_at´ date',
   })
-  transactions: TransactionPopulated[]
+  transactions: TransactionPopulated[];
 }
 
 export class PaymentRequestExceptionResponse extends ErrorResponse {
@@ -96,7 +98,7 @@ export class PreconditionFailedExceptionResponse extends ErrorResponse {
 export class TransactionCreatedResponse extends ControllerResponse {
   @ApiProperty({
     description: 'Transaction created data',
-    type: TransactionCreatedData
+    type: TransactionCreatedData,
   })
   data: TransactionCreatedData;
 }
@@ -104,7 +106,7 @@ export class TransactionCreatedResponse extends ControllerResponse {
 export class SingleTransactionResponse extends ControllerResponse {
   @ApiProperty({
     description: 'Transaction',
-    type: SingleTransactionData
+    type: SingleTransactionData,
   })
   data: SingleTransactionData;
 }
@@ -112,7 +114,7 @@ export class SingleTransactionResponse extends ControllerResponse {
 export class MultipleTransactionResponse extends ControllerResponse {
   @ApiProperty({
     description: 'Transactions',
-    type: MultipleTransactionData
+    type: MultipleTransactionData,
   })
   data: MultipleTransactionData;
 }
@@ -120,7 +122,7 @@ export class MultipleTransactionResponse extends ControllerResponse {
 export class GetTransactionsResponse extends ControllerResponse {
   @ApiProperty({
     description: 'Transactions',
-    type: TransactionsListData
+    type: TransactionsListData,
   })
   data: TransactionsListData;
 }

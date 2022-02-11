@@ -14,26 +14,21 @@ import { JWTStrategy } from '~/auth/strategies/jwt.strategy';
 import { LocalStrategy } from '~/auth/strategies/local.strategy';
 
 @Module({
-  controllers: [ AuthController ],
-  providers: [ 
-    AuthService, 
-    JWTStrategy,
-    LocalStrategy,
-    EncryptService
-  ],
+  controllers: [AuthController],
+  providers: [AuthService, JWTStrategy, LocalStrategy, EncryptService],
   imports: [
     JwtModule.registerAsync({
-      inject: [ jwtConfig.KEY ],
+      inject: [jwtConfig.KEY],
       useFactory: (config: ConfigType<typeof jwtConfig>) => {
         return {
           secret: config.secret,
-          signOptions: {  expiresIn: '1h' }
-        }
-      }
+          signOptions: { expiresIn: '1h' },
+        };
+      },
     }),
     UsersModule,
-    PassportModule
+    PassportModule,
   ],
-  exports: [ AuthService, AuthModule ]
+  exports: [AuthService, AuthModule],
 })
 export class AuthModule {}

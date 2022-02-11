@@ -1,5 +1,4 @@
-
-import { registerAs } from '@nestjs/config'
+import { registerAs } from '@nestjs/config';
 
 export default registerAs('mongodb', () => ({
   host: process.env.MONGO_DB_HOST,
