@@ -71,11 +71,9 @@ export class TransactionsService {
     });
   }
 
-  async create(createTransactionDto: CreateTransactionDto) {
+  async create(createTransactionDto: CreateTransactionDto, issuerId: string) {
     const isPayment = createTransactionDto.type === TransactionType.Payment;
-    const currentBalance = await this.getCurrentBalanceByUserId(
-      createTransactionDto.issuer,
-    );
+    const currentBalance = await this.getCurrentBalanceByUserId(issuerId);
 
     if (isPayment) {
       const hasEnoughFounds = createTransactionDto.amount <= currentBalance;
@@ -103,7 +101,7 @@ export class TransactionsService {
     }
 
     const transactionCreated = await this.transactionModel.create(
-      createTransactionDto,
+      {...createTransactionDto, issuer: issuerId}
     );
 
     const transaction = await this.transactionModel

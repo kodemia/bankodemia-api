@@ -88,13 +88,12 @@ export class TransactionsController {
       createTransactionDto.destinationUser == null
     ) {
       throw new BadRequestException(
-        `destinationUser should be provided id transaction is ${TransactionType.Payment}`,
+        `destinationUser should be provided if transaction is ${TransactionType.Payment}`,
       );
     }
 
-    createTransactionDto.issuer = user._id;
     const { transaction, finalBalance } = await this.transactionsService.create(
-      createTransactionDto,
+      createTransactionDto, user._id
     );
 
     return {

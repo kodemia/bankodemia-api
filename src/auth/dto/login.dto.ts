@@ -27,6 +27,7 @@ export class LoginDto extends PartialType(User) {
     description: 'Plain text password',
   })
   @IsNotEmpty()
+  @IsString()
   password?: string;
 }
 
@@ -64,8 +65,9 @@ export class LoginQuery {
   @ApiProperty({
     example: ExpiresInEnum['1h'],
     description:
-      'JWT Time to live. `h` = hours and `m` = minutes. 1m minimum and 1h maximum',
+      'JWT Time to live. `h` = hours and `m` = minutes. 1m minimum and 24h maximum, Defaults to 1h',
     required: false,
+    default: ExpiresInEnum['1h']
   })
   @IsOptional()
   @IsIn(ExpiresInTypes)

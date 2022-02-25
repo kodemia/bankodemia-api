@@ -2,7 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsMongoId } from 'class-validator';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { User } from '~/users/entities/user.schema';
 
 export const TransactionTypes = ['DEPOSIT', 'PAYMENT'];
 export enum TransactionType {
@@ -13,10 +12,7 @@ export enum TransactionType {
 export type TransactionDocument = Transaction & Document;
 
 @Schema()
-export class Transaction {
-  @ApiProperty({ readOnly: true })
-  _id: string;
-
+export class Transaction extends Document {
   @ApiProperty({
     type: Number,
     description: 'Transaction amount',
@@ -60,7 +56,6 @@ export class Transaction {
     type: MongooseSchema.Types.ObjectId,
     ref: 'User',
     required: function () {
-      console.log('this.type: ', this.type);
       return this.type === TransactionType.Payment;
     },
   })

@@ -12,10 +12,7 @@ export type UserDocument = User & Document;
 export type IdentityImageType = typeof identityImageTypes[number];
 
 @Schema()
-export class User {
-  @ApiProperty({ readOnly: true })
-  _id: string; // check
-
+export class User extends Document {
   @ApiProperty({
     description: 'Should be unique',
     example: 'koder@kodemia.mx',

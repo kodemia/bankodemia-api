@@ -1,3 +1,4 @@
+import { OmitType } from '@nestjs/swagger';
 import {
   IsIn,
   IsMongoId,
@@ -13,7 +14,7 @@ import {
   TransactionTypes,
 } from '~/transactions/entities/transaction.entity';
 
-export class CreateTransactionDto extends Transaction {
+export class CreateTransactionDto extends OmitType(Transaction, ['issuer', 'created_at']) {
   @IsPositive()
   @IsNumber()
   amount: number;

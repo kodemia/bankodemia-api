@@ -10,6 +10,7 @@ import { MongoDBModule } from '~/mongoose/mongoose.module';
 import { UsersModule } from '~/users/users.module';
 import { AuthModule } from '~/auth/auth.module';
 import { TransactionsModule } from './transactions/transactions.module';
+import { ContactsModule } from './contacts/contacts.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { TransactionsModule } from './transactions/transactions.module';
     UsersModule,
     MongoDBModule,
     TransactionsModule,
+    ContactsModule,
   ],
 })
 export class AppModule {}
