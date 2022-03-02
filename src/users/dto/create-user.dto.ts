@@ -1,3 +1,4 @@
+import { OmitType } from '@nestjs/swagger';
 import {
   IsBase64,
   IsDateString,
@@ -14,7 +15,7 @@ import {
   IdentityImageType,
 } from '~/users/entities/user.schema';
 
-export class CreateUserDto extends User {
+export class CreateUserDto extends OmitType(User, ['isPhoneVerified', 'phoneVerificationCode']) {
   @IsEmail()
   email: string;
 

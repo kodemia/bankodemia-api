@@ -51,14 +51,12 @@ export class UsersController {
     description: 'Register a new user, `phone` and `email` should be unique',
   })
   @Post('')
-  async create(
-    @Body() createUserDto: CreateUserDto,
-  ): Promise<SingleUserResponse> {
+  async create(@Body() createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto);
 
     return {
       success: true,
-      data: { user },
+      data: { user }
     };
   }
 
