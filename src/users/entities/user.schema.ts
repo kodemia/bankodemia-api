@@ -57,7 +57,7 @@ export class User extends Document {
 
   @ApiProperty({
     description: 'Base64 image string',
-    example: 'iVBORw0KGgoAAAANSUhEUg...',
+    example: 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
   })
   @Prop({ required: true, select: false })
   identityImage: string;
