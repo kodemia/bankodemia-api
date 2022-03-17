@@ -44,10 +44,11 @@ export class ContactsController {
     summary: 'Save a contact',
     description: 'Add a contact to your list'
   })
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createContactDto: CreateContactDto): Promise<PostContactResponse> {
-    const contact = await this.contactsService.create(createContactDto);
+  async create(@Body() createContactDto: CreateContactDto, @User() user: UserType): Promise<PostContactResponse> {
+    const contact = await this.contactsService.create(createContactDto, user._id); 
     return {
       success: true,
       data: { contact }

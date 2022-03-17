@@ -12,8 +12,8 @@ export class ContactsService {
   constructor(
     @InjectModel(Contact.name) private contactsModel: Model<Contact>
   ){}
-  create(createContactDto: CreateContactDto): Promise<Contact> {
-    return this.contactsModel.create(createContactDto)
+  create(createContactDto: CreateContactDto, owner: string): Promise<Contact> {
+    return this.contactsModel.create({...createContactDto, owner})
   }
 
   listByOwnerId(ownerId: string): Promise<Contact[] | ContactPopulated[]> {
